@@ -114,14 +114,14 @@ NLMAvisynth::NLMAvisynth(PClip _child, const int _d, const int _a, const int _s,
         env->ThrowError("KNLMeansCL: 's' must be in range [0, 8]!");
     if (h <= 0.0f)
         env->ThrowError("KNLMeansCL: 'h' must be greater than 0!");
-    if (vi.IsY() && strcasecmp(channels, "Y") && strcasecmp(channels, "auto"))
+    if (vi.IsY() && !strcasecmp(channels, "Y") && strcasecmp(channels, "auto"))
         env->ThrowError("KNLMeansCL: 'channels' must be 'Y' with greyscale pixel format!");
-    else if (vi.IsPlanar() && vi.IsYUV() && strcasecmp(channels, "YUV") && strcasecmp(channels, "Y") &&
-        strcasecmp(channels, "UV") && strcasecmp(channels, "auto"))
+    else if (vi.IsPlanar() && vi.IsYUV() && (!strcasecmp(channels, "YUV") || (!strcasecmp(channels, "Y") &&
+        !strcasecmp(channels, "UV"))) && strcasecmp(channels, "auto"))
         env->ThrowError("KNLMeansCL: 'channels' must be 'YUV', 'Y' or 'UV' with YUV color space!");
-    else if (!vi.Is444() && !strcasecmp(channels, "YUV"))
+    else if (vi.Is444() && !strcasecmp(channels, "YUV"))
         env->ThrowError("KNLMeansCL: 'channels = YUV' require a 4:4:4 pixel format!");
-    else if (vi.IsRGB() && strcasecmp(channels, "RGB") && strcasecmp(channels, "auto"))
+    else if (vi.IsRGB() && !strcasecmp(channels, "RGB") && strcasecmp(channels, "auto"))
         env->ThrowError("KNLMeansCL: 'channels' must be 'RGB' with RGB color space!");
     if (wmode < 0 || wmode > 3)
         env->ThrowError("KNLMeansCL: 'wmode' must be in range [0, 3]!");
