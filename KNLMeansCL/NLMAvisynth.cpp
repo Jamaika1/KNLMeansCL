@@ -227,6 +227,7 @@ NLMAvisynth::NLMAvisynth(PClip _child, const int _d, const int _a, const int _s,
                 clip_t |= NLM_CLIP_TYPE_UNORM;
                 channel_type_u = channel_type_p = CL_UNORM_INT8;
             }
+            printf("FFmpeg is just displaying the alpha channel. Compare to RGBAdjust(ab=255).\n");
         }
         else if (vi.BitsPerComponent() == 10 && 
                  ( (!strcasecmp(channels, "YUV") && vi.Is444()) || vi.IsPlanarRGB() || vi.IsPlanarRGBA())
