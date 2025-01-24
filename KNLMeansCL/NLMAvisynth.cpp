@@ -216,10 +216,11 @@ NLMAvisynth::NLMAvisynth(PClip _child, const int _d, const int _a, const int _s,
     cl_channel_type channel_type_p_out = NULL;
     if (vi.IsPlanar() || vi.IsRGB32() || vi.IsRGB64()) {
         if (vi.BitsPerComponent() == 8) {
+                channel_order = CL_RGBA;
             if (stacked) {
                 pre_processing = true;
                 clip_t |= NLM_CLIP_TYPE_STACKED;
-                channel_type_u = CL_UNORM_INT16;
+                channel_type_u = CL_UNORM_INT8;
                 channel_type_p = CL_UNSIGNED_INT8;
             }
             else {
