@@ -212,8 +212,8 @@ NLMAvisynth::NLMAvisynth(PClip _child, const int _d, const int _a, const int _s,
     }
 
     // Set channel_type
-    cl_channel_type channel_type_u = NULL, channel_type_p = NULL;
-    cl_channel_type channel_type_p_out = NULL;
+    cl_channel_type channel_type_u = 0x0000, channel_type_p = 0x0000;
+    cl_channel_type channel_type_p_out = 0x0000;
     if (vi.IsPlanar() || vi.IsRGB32() || vi.IsRGB64()) {
         if (vi.BitsPerComponent() == 8) {
             if (stacked) {
@@ -431,7 +431,7 @@ NLMAvisynth::NLMAvisynth(PClip _child, const int _d, const int _a, const int _s,
 
     // P0, P1 and P2 buffers can be shared for packing and unpacking only if 
     // they have the same channel type.
-    use_mem_P_out = pre_processing && (channel_type_p_out != NULL) && (channel_type_p != channel_type_p_out);
+    use_mem_P_out = pre_processing && (channel_type_p_out != 0x0000) && (channel_type_p != channel_type_p_out);
 
     // Create mem_P[]
     if (pre_processing) {
