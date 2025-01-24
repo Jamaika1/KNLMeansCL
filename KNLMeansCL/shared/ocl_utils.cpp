@@ -245,11 +245,14 @@ cl_int oclUtilsGetPlaformDeviceIDs(cl_uint device_type, cl_uint shf_device, cl_p
     }
     else switch (device_type) {
         case OCL_UTILS_DEVICE_TYPE_CPU:
-            return oclUtilsGetIDs(CL_DEVICE_TYPE_CPU, shf_device, platform, device);
+            oclUtilsGetIDs(CL_DEVICE_TYPE_CPU, shf_device, platform, device);
+            break;
         case OCL_UTILS_DEVICE_TYPE_GPU:
-            return oclUtilsGetIDs(CL_DEVICE_TYPE_GPU, shf_device, platform, device);
+            oclUtilsGetIDs(CL_DEVICE_TYPE_GPU, shf_device, platform, device);
+            break;
         case OCL_UTILS_DEVICE_TYPE_ACCELERATOR:
-            return oclUtilsGetIDs(CL_DEVICE_TYPE_ACCELERATOR, shf_device, platform, device);
+            oclUtilsGetIDs(CL_DEVICE_TYPE_ACCELERATOR, shf_device, platform, device);
+            break;
         case OCL_UTILS_DEVICE_TYPE_AUTO:
             {
                 cl_int ret = oclUtilsGetIDs(CL_DEVICE_TYPE_ACCELERATOR, shf_device, platform, device);
@@ -260,8 +263,18 @@ cl_int oclUtilsGetPlaformDeviceIDs(cl_uint device_type, cl_uint shf_device, cl_p
                     } return ret;
                 } return ret;
             }
+            break;
         default:
-            return OCL_UTILS_INVALID_DEVICE_TYPE;
+            {
+                cl_int ret = oclUtilsGetIDs(CL_DEVICE_TYPE_ACCELERATOR, shf_device, platform, device);
+                if (ret == OCL_UTILS_NO_DEVICE_AVAILABLE) {
+                    ret = oclUtilsGetIDs(CL_DEVICE_TYPE_GPU, shf_device, platform, device);
+                    if (ret == OCL_UTILS_NO_DEVICE_AVAILABLE) {
+                        return oclUtilsGetIDs(CL_DEVICE_TYPE_CPU, shf_device, platform, device);
+                    } return ret;
+                } return ret;
+            }
+            break;
     }
 }
 
